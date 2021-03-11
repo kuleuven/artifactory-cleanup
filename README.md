@@ -11,7 +11,7 @@
   * [Commands](#commands)
   * [Available Rules](#available-rules)
   * [Artifact cleanup policies](#artifactory-cleanup-policies)
-  
+
 <!-- tocstop -->
 
 # Installation
@@ -54,6 +54,22 @@ artifactory-cleanup --user user --password password --artifactory-server https:/
 4. Add `--destroy` flag to REMOVE artifacts
 ```bash
 artifactory-cleanup --destroy --user user --password password --artifactory-server https://repo.example.com/artifactory --config reponame.py
+```
+
+## Usage with docker
+
+1. Build the image:
+```bash
+docker build -t artifactory-cleanup .
+```
+The entrypoint in this image is the artifactory-cleanup cli.
+2. Create a config file (see step 2 in previous section), for example, `reponame.py`
+3. Run the image:
+```bash
+export ARTIFACTORY_USER=user
+export ARTIFACTORY_PASSWORD=password
+export ARTIFACTORY_SERVER=https://repo.example.com/artifactory
+docker run -t -e ARTIFACTORY_USER -e ARTIFACTORY_PASSWORD -e ARTIFACTORY_SERVER  -v $(pwd)/reponame.py:/home/artifactory/reponame.py:ro artifactory-cleanup --config reponame.py
 ```
 
 ## Commands ##
